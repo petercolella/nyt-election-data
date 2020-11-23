@@ -1,13 +1,4 @@
 $(document).ready(() => {
-  $.get("/api/states").then((states) => {
-    states.forEach((state) => {
-      const capitalizedState = `${state[0].toUpperCase()}${state.substring(1)}`;
-      $("#states-select").append(
-        `<option value=${state}>${capitalizedState}</option>`
-      );
-    });
-  });
-
   $("#states-input").on("click", "#state-submit", () => {
     const state = $("#states-select").val();
     if (state === "Choose a state...") return;
@@ -30,6 +21,42 @@ $(document).ready(() => {
     localStorage.getItem("state") &&
       getStateData(localStorage.getItem("state"));
   });
+
+  function getOptions() {
+    $.get("/api/states").then((states) => {
+      states.forEach((state) => {
+        const capitalizedState = `${state[0].toUpperCase()}${state.substring(
+          1
+        )}`;
+        $("#states-select").append(
+          `<option value=${state}>${capitalizedState}</option>`
+        );
+      });
+
+      const state = localStorage.getItem("state");
+      state && $("#states-select").val(state).change();
+    });
+  }
+
+  function getStateData(state) {
+    if (state === "Choose a state...") return;
+    $.get(`/api/data/${state}`).then((response) => {
+      $("#table-title").text(
+        `${state[0].toUpperCase()}${state.substring(1)} Data`
+      );
+      const data = response.data.races[0].timeseries;
+      renderTable(data);
+    });
+  }
+
+  function init() {
+    getOptions();
+    const state = localStorage.getItem("state");
+    state && getStateData(state);
+    $("#biden-up").val(localStorage.getItem("biden-up"));
+    $("#trump-up").val(localStorage.getItem("trump-up"));
+    prependLegend();
+  }
 
   function prependLegend() {
     $("#table-body").empty();
@@ -57,25 +84,6 @@ $(document).ready(() => {
         <td class="bg-info">10K > than previous row</td>
     </tr>
     `);
-  }
-
-  function getStateData(state) {
-    if (state === "Choose a state...") return;
-    $.get(`/api/data/${state}`).then((response) => {
-      $("#table-title").text(
-        `${state[0].toUpperCase()}${state.substring(1)} Data`
-      );
-      const data = response.data.races[0].timeseries;
-      renderTable(data);
-    });
-  }
-
-  function init() {
-    localStorage.getItem("state") &&
-      getStateData(localStorage.getItem("state"));
-    $("#biden-up").val(localStorage.getItem("biden-up"));
-    $("#trump-up").val(localStorage.getItem("trump-up"));
-    prependLegend();
   }
 
   function renderTable(data) {
