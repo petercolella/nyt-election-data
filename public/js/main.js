@@ -22,6 +22,14 @@ $(document).ready(() => {
       getStateData(localStorage.getItem("state"));
   });
 
+  $("#button-other-up").on("click", () => {
+    const otherUp = $("#other-up").val();
+    localStorage.setItem("other-up", otherUp);
+    prependLegend();
+    localStorage.getItem("state") &&
+      getStateData(localStorage.getItem("state"));
+  });
+
   function getOptions() {
     $.get("/api/states").then((states) => {
       states.forEach((state) => {
@@ -55,6 +63,7 @@ $(document).ready(() => {
     state && getStateData(state);
     $("#biden-up").val(localStorage.getItem("biden-up"));
     $("#trump-up").val(localStorage.getItem("trump-up"));
+    $("#other-up").val(localStorage.getItem("other-up"));
     prependLegend();
   }
 
@@ -64,6 +73,8 @@ $(document).ready(() => {
     const bidenUpFormatted = `${Math.floor(bidenUp / 1000)}K`;
     const trumpUp = localStorage.getItem("trump-up") || 100000;
     const trumpUpFormatted = `${Math.floor(trumpUp / 1000)}K`;
+    const otherUp = localStorage.getItem("other-up") || 10000;
+    const otherUpFormatted = `${Math.floor(otherUp / 1000)}K`;
     $("#table-body").prepend(`
     <tr>
         <td></td>
@@ -81,7 +92,7 @@ $(document).ready(() => {
         <td class="bg-primary">${bidenUpFormatted} > than previous row</td>
         <td></td>
         <td class="bg-danger">${trumpUpFormatted} > than previous row</td>
-        <td class="bg-info">10K > than previous row</td>
+        <td class="bg-info">${otherUpFormatted} > than previous row</td>
     </tr>
     `);
   }
@@ -113,8 +124,9 @@ $(document).ready(() => {
       const trumpUp = localStorage.getItem("trump-up") || 100000;
       const trumpDropped = trumpVotes < prevRowTrumpVotes || 0;
       const trumpUpBool = trumpVotes - prevRowTrumpVotes > trumpUp;
+      const otherUp = localStorage.getItem("other-up") || 100000;
       const otherDropped = otherVotes < prevOtherVotes || 0;
-      const otherUp10K = otherVotes - prevOtherVotes > 10000;
+      const otherUpBool = otherVotes - prevOtherVotes > otherUp;
       $("#table-body").append(`
         <tr>
             <th>${localeString}</th>
@@ -132,7 +144,7 @@ $(document).ready(() => {
         .toFixed(0)
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
             <td class=${
-              otherDropped ? "bg-warning" : otherUp10K ? "bg-info" : null
+              otherDropped ? "bg-warning" : otherUpBool ? "bg-info" : null
             }>${otherVotes
         .toFixed(0)
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
