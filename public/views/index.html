@@ -33,6 +33,56 @@
             </div>
           </div>
         </div>
+        <div class="row mt-3">
+          <div class="col">
+            <label for="biden-up"
+              >Highlight cells where Biden's votes increase by...
+            </label>
+            <div class="input-group mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="biden-up"
+                placeholder="Number of votes more than previous row"
+                aria-label="Number of votes more than previous row"
+                aria-describedby="button-addon2"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  id="button-biden-up"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <label for="trump-up"
+              >Highlight cells where Trump's votes increase by...</label
+            >
+            <div class="input-group mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="trump-up"
+                placeholder="Number of votes more than previous row"
+                aria-label="Number of votes more than previous row"
+                aria-describedby="button-addon2"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  id="button-trump-up"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
         <h2 class="text-center mt-5" id="table-title">Data Table</h2>
         <div class="row">
           <table class="table table-sm table-dark table-striped">
@@ -47,26 +97,7 @@
                 <th scope="col">Other Votes</th>
               </tr>
             </thead>
-            <tbody id="table-body">
-              <tr>
-                <th></th>
-                <td></td>
-                <td></td>
-                <td class="bg-danger">Fewer than previous row</td>
-                <td></td>
-                <td class="bg-primary">Fewer than previous row</td>
-                <td class="bg-warning">Fewer than previous row</td>
-              </tr>
-              <tr>
-                <th></th>
-                <td></td>
-                <td></td>
-                <td class="bg-success">100K > than previous row</td>
-                <td></td>
-                <td class="bg-success">100K > than previous row</td>
-                <td class="bg-info">10K > than previous row</td>
-              </tr>
-            </tbody>
+            <tbody id="table-body"></tbody>
           </table>
         </div>
       </div>
