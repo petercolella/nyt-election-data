@@ -30,6 +30,12 @@ $(document).ready(() => {
       getStateData(localStorage.getItem("state"));
   });
 
+  function formatVotesUp(votes) {
+    return `${
+      Math.floor(votes / 1000) >= 1 ? Math.floor(votes / 1000) : "<1"
+    }K`;
+  }
+
   function getOptions() {
     $.get("/api/states").then((states) => {
       states.forEach((state) => {
@@ -70,11 +76,8 @@ $(document).ready(() => {
   function prependLegend() {
     $("#table-body").empty();
     const bidenUp = localStorage.getItem("biden-up") || 100000;
-    const bidenUpFormatted = `${Math.floor(bidenUp / 1000)}K`;
     const trumpUp = localStorage.getItem("trump-up") || 100000;
-    const trumpUpFormatted = `${Math.floor(trumpUp / 1000)}K`;
     const otherUp = localStorage.getItem("other-up") || 10000;
-    const otherUpFormatted = `${Math.floor(otherUp / 1000)}K`;
     $("#table-body").prepend(`
     <tr>
         <td></td>
@@ -89,10 +92,16 @@ $(document).ready(() => {
         <td></td>
         <td></td>
         <td></td>
-        <td class="bg-primary">${bidenUpFormatted} > than previous row</td>
+        <td class="bg-primary">${formatVotesUp(
+          bidenUp
+        )} more than previous row</td>
         <td></td>
-        <td class="bg-danger">${trumpUpFormatted} > than previous row</td>
-        <td class="bg-info">${otherUpFormatted} > than previous row</td>
+        <td class="bg-danger">${formatVotesUp(
+          trumpUp
+        )} more than previous row</td>
+        <td class="bg-info">${formatVotesUp(
+          otherUp
+        )} more than previous row</td>
     </tr>
     `);
   }
