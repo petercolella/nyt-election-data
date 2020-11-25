@@ -1,7 +1,11 @@
 $(document).ready(() => {
+  let currentState;
+
   $("#states-input").on("click", "#state-submit", () => {
     const state = $("#states-select").val();
     if (state === "Choose a state...") return;
+    $("#states-spinner").removeClass("d-none");
+    currentState = state;
     localStorage.setItem("state", state);
     getStateData(state);
   });
@@ -10,24 +14,30 @@ $(document).ready(() => {
     const bidenUp = $("#biden-up").val();
     localStorage.setItem("biden-up", bidenUp);
     prependLegend();
-    localStorage.getItem("state") &&
-      getStateData(localStorage.getItem("state"));
+    if (currentState) {
+      $("#biden-spinner").removeClass("d-none");
+      getStateData(currentState);
+    }
   });
 
   $("#button-trump-up").on("click", () => {
     const trumpUp = $("#trump-up").val();
     localStorage.setItem("trump-up", trumpUp);
     prependLegend();
-    localStorage.getItem("state") &&
-      getStateData(localStorage.getItem("state"));
+    if (currentState) {
+      $("#trump-spinner").removeClass("d-none");
+      getStateData(currentState);
+    }
   });
 
   $("#button-other-up").on("click", () => {
     const otherUp = $("#other-up").val();
     localStorage.setItem("other-up", otherUp);
     prependLegend();
-    localStorage.getItem("state") &&
-      getStateData(localStorage.getItem("state"));
+    if (currentState) {
+      $("#other-spinner").removeClass("d-none");
+      getStateData(currentState);
+    }
   });
 
   function formatVotesUp(votes) {
@@ -35,6 +45,14 @@ $(document).ready(() => {
       Math.floor(votes / 1000) >= 1 ? Math.floor(votes / 1000) : "<1"
     }K`;
   }
+
+  function getAllData() {
+    $.get(
+      "https://static01.nyt.com/elections-assets/2020/data/api/2020-11-03/votes-remaining-page/national/president.json"
+    ).then((response) => console.log("data", response));
+  }
+
+  getAllData();
 
   function getOptions() {
     $.get("/api/states").then((states) => {
@@ -47,14 +65,16 @@ $(document).ready(() => {
         );
       });
 
-      const state = localStorage.getItem("state");
-      state && $("#states-select").val(state).change();
+      currentState && $("#states-select").val(currentState).change();
     });
   }
 
   function getStateData(state) {
     if (state === "Choose a state...") return;
     $.get(`/api/data/${state}`).then((response) => {
+      $(
+        "#states-spinner, #biden-spinner, #trump-spinner, #other-spinner"
+      ).addClass("d-none");
       $("#table-title").text(
         `${state[0].toUpperCase()}${state.substring(1)} Data`
       );
@@ -65,8 +85,8 @@ $(document).ready(() => {
 
   function init() {
     getOptions();
-    const state = localStorage.getItem("state");
-    state && getStateData(state);
+    currentState = localStorage.getItem("state");
+    currentState && getStateData(currentState);
     $("#biden-up").val(localStorage.getItem("biden-up"));
     $("#trump-up").val(localStorage.getItem("trump-up"));
     $("#other-up").val(localStorage.getItem("other-up"));
