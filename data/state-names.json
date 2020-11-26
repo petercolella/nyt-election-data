@@ -1,56 +1,206 @@
 [
-  { "state_name": "Alaska", "state_slug": "alaska" },
-  { "state_name": "Alabama", "state_slug": "alabama" },
-  { "state_name": "Arkansas", "state_slug": "arkansas" },
-  { "state_name": "Arizona", "state_slug": "arizona" },
-  { "state_name": "California", "state_slug": "california" },
-  { "state_name": "Colorado", "state_slug": "colorado" },
-  { "state_name": "Connecticut", "state_slug": "connecticut" },
+  {
+    "state_name": "Alaska",
+    "state_slug": "alaska"
+  },
+  {
+    "state_name": "Alabama",
+    "state_slug": "alabama"
+  },
+  {
+    "state_name": "Arkansas",
+    "state_slug": "arkansas"
+  },
+  {
+    "state_name": "Arizona",
+    "state_slug": "arizona"
+  },
+  {
+    "state_name": "California",
+    "state_slug": "california"
+  },
+  {
+    "state_name": "Colorado",
+    "state_slug": "colorado"
+  },
+  {
+    "state_name": "Connecticut",
+    "state_slug": "connecticut"
+  },
   {
     "state_name": "District of Columbia",
     "state_slug": "district-of-columbia"
   },
-  { "state_name": "Delaware", "state_slug": "delaware" },
-  { "state_name": "Florida", "state_slug": "florida" },
-  { "state_name": "Georgia", "state_slug": "georgia" },
-  { "state_name": "Hawaii", "state_slug": "hawaii" },
-  { "state_name": "Iowa", "state_slug": "iowa" },
-  { "state_name": "Idaho", "state_slug": "idaho" },
-  { "state_name": "Illinois", "state_slug": "illinois" },
-  { "state_name": "Indiana", "state_slug": "indiana" },
-  { "state_name": "Kansas", "state_slug": "kansas" },
-  { "state_name": "Kentucky", "state_slug": "kentucky" },
-  { "state_name": "Louisiana", "state_slug": "louisiana" },
-  { "state_name": "Massachusetts", "state_slug": "massachusetts" },
-  { "state_name": "Maryland", "state_slug": "maryland" },
-  { "state_name": "Maine", "state_slug": "maine" },
-  { "state_name": "Michigan", "state_slug": "michigan" },
-  { "state_name": "Minnesota", "state_slug": "minnesota" },
-  { "state_name": "Missouri", "state_slug": "missouri" },
-  { "state_name": "Mississippi", "state_slug": "mississippi" },
-  { "state_name": "Montana", "state_slug": "montana" },
-  { "state_name": "North Carolina", "state_slug": "north-carolina" },
-  { "state_name": "North Dakota", "state_slug": "north-dakota" },
-  { "state_name": "Nebraska", "state_slug": "nebraska" },
-  { "state_name": "New Hampshire", "state_slug": "new-hampshire" },
-  { "state_name": "New Jersey", "state_slug": "new-jersey" },
-  { "state_name": "New Mexico", "state_slug": "new-mexico" },
-  { "state_name": "Nevada", "state_slug": "nevada" },
-  { "state_name": "New York", "state_slug": "new-york" },
-  { "state_name": "Ohio", "state_slug": "ohio" },
-  { "state_name": "Oklahoma", "state_slug": "oklahoma" },
-  { "state_name": "Oregon", "state_slug": "oregon" },
-  { "state_name": "Pennsylvania", "state_slug": "pennsylvania" },
-  { "state_name": "Rhode Island", "state_slug": "rhode-island" },
-  { "state_name": "South Carolina", "state_slug": "south-carolina" },
-  { "state_name": "South Dakota", "state_slug": "south-dakota" },
-  { "state_name": "Tennessee", "state_slug": "tennessee" },
-  { "state_name": "Texas", "state_slug": "texas" },
-  { "state_name": "Utah", "state_slug": "utah" },
-  { "state_name": "Virginia", "state_slug": "virginia" },
-  { "state_name": "Vermont", "state_slug": "vermont" },
-  { "state_name": "Washington", "state_slug": "washington" },
-  { "state_name": "Wisconsin", "state_slug": "wisconsin" },
-  { "state_name": "West Virginia", "state_slug": "west-virginia" },
-  { "state_name": "Wyoming", "state_slug": "wyoming" }
+  {
+    "state_name": "Delaware",
+    "state_slug": "delaware"
+  },
+  {
+    "state_name": "Florida",
+    "state_slug": "florida"
+  },
+  {
+    "state_name": "Georgia",
+    "state_slug": "georgia"
+  },
+  {
+    "state_name": "Hawaii",
+    "state_slug": "hawaii"
+  },
+  {
+    "state_name": "Iowa",
+    "state_slug": "iowa"
+  },
+  {
+    "state_name": "Idaho",
+    "state_slug": "idaho"
+  },
+  {
+    "state_name": "Illinois",
+    "state_slug": "illinois"
+  },
+  {
+    "state_name": "Indiana",
+    "state_slug": "indiana"
+  },
+  {
+    "state_name": "Kansas",
+    "state_slug": "kansas"
+  },
+  {
+    "state_name": "Kentucky",
+    "state_slug": "kentucky"
+  },
+  {
+    "state_name": "Louisiana",
+    "state_slug": "louisiana"
+  },
+  {
+    "state_name": "Massachusetts",
+    "state_slug": "massachusetts"
+  },
+  {
+    "state_name": "Maryland",
+    "state_slug": "maryland"
+  },
+  {
+    "state_name": "Maine",
+    "state_slug": "maine"
+  },
+  {
+    "state_name": "Michigan",
+    "state_slug": "michigan"
+  },
+  {
+    "state_name": "Minnesota",
+    "state_slug": "minnesota"
+  },
+  {
+    "state_name": "Missouri",
+    "state_slug": "missouri"
+  },
+  {
+    "state_name": "Mississippi",
+    "state_slug": "mississippi"
+  },
+  {
+    "state_name": "Montana",
+    "state_slug": "montana"
+  },
+  {
+    "state_name": "North Carolina",
+    "state_slug": "north-carolina"
+  },
+  {
+    "state_name": "North Dakota",
+    "state_slug": "north-dakota"
+  },
+  {
+    "state_name": "Nebraska",
+    "state_slug": "nebraska"
+  },
+  {
+    "state_name": "New Hampshire",
+    "state_slug": "new-hampshire"
+  },
+  {
+    "state_name": "New Jersey",
+    "state_slug": "new-jersey"
+  },
+  {
+    "state_name": "New Mexico",
+    "state_slug": "new-mexico"
+  },
+  {
+    "state_name": "Nevada",
+    "state_slug": "nevada"
+  },
+  {
+    "state_name": "New York",
+    "state_slug": "new-york"
+  },
+  {
+    "state_name": "Ohio",
+    "state_slug": "ohio"
+  },
+  {
+    "state_name": "Oklahoma",
+    "state_slug": "oklahoma"
+  },
+  {
+    "state_name": "Oregon",
+    "state_slug": "oregon"
+  },
+  {
+    "state_name": "Pennsylvania",
+    "state_slug": "pennsylvania"
+  },
+  {
+    "state_name": "Rhode Island",
+    "state_slug": "rhode-island"
+  },
+  {
+    "state_name": "South Carolina",
+    "state_slug": "south-carolina"
+  },
+  {
+    "state_name": "South Dakota",
+    "state_slug": "south-dakota"
+  },
+  {
+    "state_name": "Tennessee",
+    "state_slug": "tennessee"
+  },
+  {
+    "state_name": "Texas",
+    "state_slug": "texas"
+  },
+  {
+    "state_name": "Utah",
+    "state_slug": "utah"
+  },
+  {
+    "state_name": "Virginia",
+    "state_slug": "virginia"
+  },
+  {
+    "state_name": "Vermont",
+    "state_slug": "vermont"
+  },
+  {
+    "state_name": "Washington",
+    "state_slug": "washington"
+  },
+  {
+    "state_name": "Wisconsin",
+    "state_slug": "wisconsin"
+  },
+  {
+    "state_name": "West Virginia",
+    "state_slug": "west-virginia"
+  },
+  {
+    "state_name": "Wyoming",
+    "state_slug": "wyoming"
+  }
 ]
