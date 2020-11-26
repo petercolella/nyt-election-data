@@ -1,5 +1,8 @@
 $(document).ready(() => {
   let currentState;
+  let bidenUp;
+  let trumpUp;
+  let otherUp;
 
   $("#states-input").on("click", "#state-submit", () => {
     const state = $("#states-select").val();
@@ -11,8 +14,9 @@ $(document).ready(() => {
   });
 
   $("#button-biden-up").on("click", () => {
-    const bidenUp = $("#biden-up").val();
-    localStorage.setItem("biden-up", bidenUp);
+    const value = $("#biden-up").val();
+    bidenUp = value;
+    localStorage.setItem("biden-up", value);
     prependLegend();
     if (currentState) {
       $("#biden-spinner").removeClass("d-none");
@@ -21,8 +25,9 @@ $(document).ready(() => {
   });
 
   $("#button-trump-up").on("click", () => {
-    const trumpUp = $("#trump-up").val();
-    localStorage.setItem("trump-up", trumpUp);
+    const value = $("#trump-up").val();
+    trumpUp = value;
+    localStorage.setItem("trump-up", value);
     prependLegend();
     if (currentState) {
       $("#trump-spinner").removeClass("d-none");
@@ -31,8 +36,9 @@ $(document).ready(() => {
   });
 
   $("#button-other-up").on("click", () => {
-    const otherUp = $("#other-up").val();
-    localStorage.setItem("other-up", otherUp);
+    const value = $("#other-up").val();
+    otherUp = value;
+    localStorage.setItem("other-up", value);
     prependLegend();
     if (currentState) {
       $("#other-spinner").removeClass("d-none");
@@ -41,15 +47,13 @@ $(document).ready(() => {
   });
 
   function formatVotesUp(votes) {
-    return `${
-      Math.floor(votes / 1000) >= 1 ? Math.floor(votes / 1000) : "<1"
-    }K`;
+    return `${votes / 1000 >= 1 ? (votes / 1000).toFixed(0) : "<1"}K`;
   }
 
   function getAllData() {
     $.get(
       "https://static01.nyt.com/elections-assets/2020/data/api/2020-11-03/votes-remaining-page/national/president.json"
-    ).then((response) => console.log("data", response));
+    ).then((response) => console.log("NY Times API:", response));
   }
 
   getAllData();
@@ -57,11 +61,9 @@ $(document).ready(() => {
   function getOptions() {
     $.get("/api/states").then((states) => {
       states.forEach((state) => {
-        const capitalizedState = `${state[0].toUpperCase()}${state.substring(
-          1
-        )}`;
+        const { state_name, state_slug } = state;
         $("#states-select").append(
-          `<option value=${state}>${capitalizedState}</option>`
+          `<option value=${state_slug}>${state_name}</option>`
         );
       });
 
@@ -75,11 +77,9 @@ $(document).ready(() => {
       $(
         "#states-spinner, #biden-spinner, #trump-spinner, #other-spinner"
       ).addClass("d-none");
-      $("#table-title").text(
-        `${state[0].toUpperCase()}${state.substring(1)} Data`
-      );
-      const data = response.data.races[0].timeseries;
-      renderTable(data);
+      const { state_name, timeseries } = response;
+      $("#table-title").text(`${state_name} Data`);
+      renderTable(timeseries);
     });
   }
 
@@ -87,17 +87,17 @@ $(document).ready(() => {
     getOptions();
     currentState = localStorage.getItem("state");
     currentState && getStateData(currentState);
-    $("#biden-up").val(localStorage.getItem("biden-up"));
-    $("#trump-up").val(localStorage.getItem("trump-up"));
-    $("#other-up").val(localStorage.getItem("other-up"));
+    bidenUp = localStorage.getItem("biden-up") || 100000;
+    trumpUp = localStorage.getItem("trump-up") || 100000;
+    otherUp = localStorage.getItem("other-up") || 10000;
+    $("#biden-up").val(bidenUp);
+    $("#trump-up").val(trumpUp);
+    $("#other-up").val(otherUp);
     prependLegend();
   }
 
   function prependLegend() {
     $("#table-body").empty();
-    const bidenUp = localStorage.getItem("biden-up") || 100000;
-    const trumpUp = localStorage.getItem("trump-up") || 100000;
-    const otherUp = localStorage.getItem("other-up") || 10000;
     $("#table-body").prepend(`
     <tr>
         <td></td>
