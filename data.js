@@ -2,6 +2,28 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 
+const createValueAndNameArray = (data) => {
+  const arr = [];
+
+  data.forEach((state) => {
+    const { state_name, state_slug } = state;
+    const stateObj = {
+      state_name,
+      state_slug,
+    };
+    arr.push(stateObj);
+  });
+
+  fs.writeFile(
+    path.join(__dirname, "data/state-names.json"),
+    JSON.stringify(arr),
+    (err) => {
+      if (err) throw err;
+      console.log(`Array of length: ${arr.length} added to state-names.json`);
+    }
+  );
+};
+
 const getData = () => {
   axios
     .get(
@@ -9,6 +31,8 @@ const getData = () => {
     )
     .then((response) => {
       const data = response.data.data.races;
+
+      createValueAndNameArray(data);
 
       data.forEach((state) => {
         const stateData = JSON.stringify(state);
