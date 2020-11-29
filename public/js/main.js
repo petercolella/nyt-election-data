@@ -46,6 +46,52 @@ $(document).ready(() => {
     }
   });
 
+  function addCommas(num) {
+    return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function appendTotals(totals) {
+    const {
+      bidenDownTotal,
+      trumpDownTotal,
+      otherDownTotal,
+      bidenUpTotal,
+      trumpUpTotal,
+      otherUpTotal,
+    } = totals;
+
+    $("#table-body").append(`
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="bg-danger">Total Down: ${addCommas(
+          bidenDownTotal.toFixed(0)
+        )}</td>
+        <td></td>
+        <td class="bg-primary">Total Down: ${addCommas(
+          trumpDownTotal.toFixed(0)
+        )}</td>
+        <td class="bg-warning">Total Down: ${addCommas(
+          otherDownTotal.toFixed(0)
+        )}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="bg-primary">Total Up: ${addCommas(
+          bidenUpTotal.toFixed(0)
+        )}</td>
+        <td></td>
+        <td class="bg-danger">Total Up: ${addCommas(
+          trumpUpTotal.toFixed(0)
+        )}</td>
+        <td class="bg-info">Total Up: ${addCommas(otherUpTotal.toFixed(0))}</td>
+    </tr>
+    `);
+  }
+
   function formatVotesUp(votes) {
     return `${votes / 1000 >= 1 ? (votes / 1000).toFixed(0) : "<1"}K`;
   }
@@ -128,6 +174,14 @@ $(document).ready(() => {
 
   function renderTable(data) {
     prependLegend();
+
+    let bidenDownTotal = 0;
+    let trumpDownTotal = 0;
+    let otherDownTotal = 0;
+    let bidenUpTotal = 0;
+    let trumpUpTotal = 0;
+    let otherUpTotal = 0;
+
     for (let i = 0; i < data.length; i++) {
       const {
         timestamp,
@@ -138,24 +192,49 @@ $(document).ready(() => {
       const bidenVotes = votes * bidenj;
       const trumpVotes = votes * trumpd;
       const otherVotes = votes - bidenVotes - trumpVotes;
+
       let prevRowBidenVotes;
       let prevRowTrumpVotes;
-      let prevOtherVotes;
+      let prevRowOtherVotes;
+
       if (i > 0) {
         prevRowBidenVotes = data[i - 1].votes * data[i - 1].vote_shares.bidenj;
         prevRowTrumpVotes = data[i - 1].votes * data[i - 1].vote_shares.trumpd;
-        prevOtherVotes =
+        prevRowOtherVotes =
           data[i - 1].votes - prevRowBidenVotes - prevRowTrumpVotes;
       }
+
       const bidenUp = localStorage.getItem("biden-up") || 100000;
       const bidenDropped = bidenVotes < prevRowBidenVotes || 0;
       const bidenUpBool = bidenVotes - prevRowBidenVotes > bidenUp;
+
       const trumpUp = localStorage.getItem("trump-up") || 100000;
       const trumpDropped = trumpVotes < prevRowTrumpVotes || 0;
       const trumpUpBool = trumpVotes - prevRowTrumpVotes > trumpUp;
+
       const otherUp = localStorage.getItem("other-up") || 100000;
-      const otherDropped = otherVotes < prevOtherVotes || 0;
-      const otherUpBool = otherVotes - prevOtherVotes > otherUp;
+      const otherDropped = otherVotes < prevRowOtherVotes || 0;
+      const otherUpBool = otherVotes - prevRowOtherVotes > otherUp;
+
+      bidenDownTotal = bidenDropped
+        ? (bidenDownTotal += prevRowBidenVotes - bidenVotes)
+        : bidenDownTotal;
+      trumpDownTotal = trumpDropped
+        ? (trumpDownTotal += prevRowTrumpVotes - trumpVotes)
+        : trumpDownTotal;
+      otherDownTotal = otherDropped
+        ? (otherDownTotal += prevRowOtherVotes - otherVotes)
+        : otherDownTotal;
+      bidenUpTotal = bidenUpBool
+        ? (bidenUpTotal += bidenVotes - prevRowBidenVotes)
+        : bidenUpTotal;
+      trumpUpTotal = trumpUpBool
+        ? (trumpUpTotal += trumpVotes - prevRowTrumpVotes)
+        : trumpUpTotal;
+      otherUpTotal = otherUpBool
+        ? (otherUpTotal += otherVotes - prevRowOtherVotes)
+        : otherUpTotal;
+
       $("#table-body").append(`
         <tr>
             <th>${localeString}</th>
@@ -180,6 +259,16 @@ $(document).ready(() => {
         </tr>
         `);
     }
+
+    appendTotals({
+      bidenDownTotal,
+      trumpDownTotal,
+      otherDownTotal,
+      bidenUpTotal,
+      trumpUpTotal,
+      otherUpTotal,
+    });
   }
+
   init();
 });
