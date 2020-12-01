@@ -50,7 +50,7 @@ $(document).ready(() => {
     return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  function appendTotals(totals) {
+  function addTotals(totals) {
     const {
       bidenDownTotal,
       trumpDownTotal,
@@ -60,7 +60,7 @@ $(document).ready(() => {
       otherUpTotal,
     } = totals;
 
-    $("#table-body").append(`
+    $(`
     <tr>
         <td></td>
         <td></td>
@@ -89,7 +89,7 @@ $(document).ready(() => {
         )}</td>
         <td class="bg-info">Total Up: ${addCommas(otherUpTotal.toFixed(0))}</td>
     </tr>
-    `);
+    `).insertAfter("#legend");
   }
 
   function formatVotesUp(votes) {
@@ -154,7 +154,7 @@ $(document).ready(() => {
         <td class="bg-primary">Fewer than previous row</td>
         <td class="bg-warning">Fewer than previous row</td>
     </tr>
-    <tr>
+    <tr id="legend">
         <td></td>
         <td></td>
         <td></td>
@@ -260,7 +260,7 @@ $(document).ready(() => {
         `);
     }
 
-    appendTotals({
+    addTotals({
       bidenDownTotal,
       trumpDownTotal,
       otherDownTotal,
